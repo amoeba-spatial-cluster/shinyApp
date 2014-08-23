@@ -1,0 +1,68 @@
+AMOEBA shiny App
+===
+author: Guillermo Valles Castellano
+date: August, 2014
+transition: rotate
+
+Introduction
+===
+
+A Multidirectiona Optimum Ecotope-Based Algorithm is a function to calculate spatial clusters using the Getis-Ord local statistic. It searches irregular clusters (ecotopes) on a map through boundaries or grid of it.
+
+
+How to use AMOEBA
+===
+
+You only need 5 arguments:
+
+```{r, eval=FALSE}
+AMOEBA(outc, neig, power = 1, cpu = 1)
+```
+
+
+- outc: Numeric vector with the study outcome
+- neig: Neighbours object from "spdep" package
+- power: Number of times to apply AMOEBA
+- cpu: Total number of cpu to run faster the algorithm
+
+You can make things like...
+===
+
+```{r, echo=FALSE}
+require(AMOEBA)
+require(plotrix)
+require(maptools)
+data(columbus)
+map<-readShapePoly(system.file('etc/shapes/columbus.shp',package='spdep')[1])
+res<-AMOEBA(columbus$CRIME,col.gal.nb,1,1)
+
+color<-rev(rainbow(length(table(res)),start=0,end=2/6))
+plot(map,col=color[as.factor(res)])
+title('AMOEBA')
+names<-c('\nLow','\nOutside','\nHigh')
+color.legend(map@bbox[1,1],map@bbox[2,1]-0.2,map@bbox[1,2],map@bbox[2,1]-0.4,names,color,align='rb')
+```
+
+***
+
+```{r, echo=FALSE,}
+res2<-AMOEBA(columbus$CRIME,col.gal.nb,2,1)
+
+color<-rev(rainbow(length(table(res2)),start=0,end=2/6))
+plot(map,col=color[as.factor(res2)])
+title('AMOEBA+')
+names<-c('\nLow','\nMedium','\nHigh')
+color.legend(map@bbox[1,1],map@bbox[2,1]-0.2,map@bbox[1,2],map@bbox[2,1]-0.4,names,color,align='rb')
+```
+
+Information
+===
+
+- AMOEBA package available in R Cran
+
+- Visit:
+  - http://cran.r-project.org/web/packages/AMOEBA/index.html
+  - http://amoeba-spatial-cluster.shinyapps.io/AMOEBA
+  - http://github.com/amoeba-spatial-cluster/shinyApp
+  
+- Email: amoeba_spatial_cluster@yahoo.com
